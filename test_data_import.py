@@ -18,6 +18,8 @@ class TestDataImport(unittest.TestCase):
         file.write('2/12/18 1:29,2.0\n')
         file.close()
         self.obj = data_import.ImportData('search.csv')
+        self.obj._rounded_time.append(datetime.datetime(2018, 1, 29, 1, 29))
+        self.obj._rounded_time.append(datetime.datetime(2018, 2, 12, 1, 29))
 
     def tearDown(self):
         os.remove('search.csv')
@@ -55,7 +57,7 @@ class TestDataImport(unittest.TestCase):
     def test_linear_search_found(self):
         timestamp = datetime.datetime(2018, 1, 29, 1, 29)
         res = self.obj.linear_search_value(timestamp)
-        self.assertEqual(res, 1.0)
+        self.assertEqual(res, [1.0])
 
     def test_binary_search_notfound(self):
         timestamp = datetime.datetime(2018, 1, 29, 1, 20)
@@ -65,7 +67,7 @@ class TestDataImport(unittest.TestCase):
     def test_binary_search_found(self):
         timestamp = datetime.datetime(2018, 1, 29, 1, 29)
         res = self.obj.linear_search_value(timestamp)
-        self.assertEqual(res, 1.0)
+        self.assertEqual(res, [1.0])
 
     def test_print_array_round_to_5(self):
         data = []
